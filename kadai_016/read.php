@@ -27,19 +27,9 @@ try {
         $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at ASC';
     }
 
-
-
-
-     // orderパラメータの値によってSQL文を変更する    
-     if ($order === 'desc') {
-        $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at DESC';
-    } else {
-        $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at ASC';
-    }
-
-
 // SQL文を用意する
 $stmt_select = $pdo->prepare($sql_select);
+
 
 // SQLのLIKE句で使うため、変数$keyword（検索ワード）の前後を%で囲む（部分一致）
 // 補足：partial match＝部分一致
@@ -53,13 +43,11 @@ $stmt_select->execute();
 
 
 // SQL文の実行結果を配列で取得する
-    $products = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
+$books = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     exit($e->getMessage());
 }
 ?>
-
-
 
 
 
@@ -108,6 +96,7 @@ $stmt_select->execute();
                     <form action="read.php" method="get" class="search-form">
                         <input type="hidden" name="order" value="<?= $order ?>">
                         <input type="text" class="search-box" placeholder="商品名で検索" name="keyword" value="<?= $keyword ?>">
+                        <button type="submit" class="btn">検索</button>
                     </form>
                 </div>
                 <a href="create.php" class="btn">書籍登録</a>
@@ -125,19 +114,18 @@ $stmt_select->execute();
     </tr>
     <?php
     // 配列の中身を順番に取り出し、表形式で出力する
-    foreach ($products as $product) {
-        $table_row = "
+    foreach ($books as $book) {
+        echo "
             <tr>
-            <td>{$product['book_code']}</td> <!-- product_code → book_code -->
-            <td>{$product['book_name']}</td> <!-- product_name → book_name -->
-            <td>{$product['price']}</td>
-            <td>{$product['stock_quantity']}</td>
-            <td>{$product['genre_code']}</td> <!-- vendor_code → genre_code -->
-            <td><a href='update.php?id={$product['id']}'><img src='images/edit.png' alt='編集' class='edit-icon'></a>   
-            <td><a href='delete.php?id={$product['id']}'><img src='images/delete.png' alt='削除' class='delete-icon'></a></td>           
-            </tr>                    
+                <td>{$book['book_code']}</td>
+                <td>{$book['book_name']}</td>
+                <td>{$book['price']}</td>
+                <td>{$book['stock_quantity']}</td>
+                <td>{$book['genre_code']}</td>
+                <td><a href='update.php?id={$book['id']}'><img src='images/edit.png' alt='編集' class='edit-icon'></a></td>
+                <td><a href='delete.php?id={$book['id']}'><img src='images/delete.png' alt='削除' class='delete-icon'></a></td>
+            </tr>
         ";
-        echo $table_row;
     }
     ?>
     </table>

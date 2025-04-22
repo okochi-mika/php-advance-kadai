@@ -75,7 +75,7 @@ try {
                         <option disabled selected value>選択してください</option>
                         <?php
                         // 配列の中身を順番に取り出し、セレクトボックスの選択肢として出力する
-                        foreach ($vendor_codes as $vendor_code) {
+                        foreach ($genre_codes as $genre_code) {
                             echo "<option value='{$vendor_code}'>{$vendor_code}</option>";
                         }
                         ?>
