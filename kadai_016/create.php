@@ -6,17 +6,22 @@ $password = 'root';
 try {
     $pdo = new PDO($dsn, $user, $password);
 
-    // GETにidがあれば削除処理
-    if (isset($_GET['id'])) {
-        $sql_delete = 'DELETE FROM books WHERE id = :id';
-        $stmt_delete = $pdo->prepare($sql_delete);
-        $stmt_delete->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
-        $stmt_delete->execute();
-
-        $message = "書籍ID {$_GET['id']} を削除しました。";
-        header("Location: read.php?message={$message}");
+   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $sql_insert = 'INSERT INTO books (book_code, book_name, price, stock_quantity, genre_code, created_at, updated_at)
+                       VALUES (:book_code, :book_name, :price, :stock_quantity, :genre_code, NOW(), NOW())';
+        $stmt_insert = $pdo->prepare($sql_insert);
+        $stmt_insert->bindValue(':book_code', $_POST['book_code'], PDO::PARAM_INT);
+        $stmt_insert->bindValue(':book_name', $_POST['book_name'], PDO::PARAM_STR);
+        $stmt_insert->bindValue(':price', $_POST['price'], PDO::PARAM_INT);
+        $stmt_insert->bindValue(':stock_quantity', $_POST['stock_quantity'], PDO::PARAM_INT);
+        $stmt_insert->bindValue(':genre_code', $_POST['genre_code'], PDO::PARAM_STR);
+        $stmt_insert->execute();
+    
+        // 成功時メッセージとともに一覧へリダイレクト
+        header("Location: read.php?message=" . urlencode("書籍を登録しました"));
         exit;
     }
+    
 
     // ジャンルコードを取得
     $sql_genres = 'SELECT genre_code FROM genres';
@@ -76,7 +81,7 @@ try {
                         <?php
                         // 配列の中身を順番に取り出し、セレクトボックスの選択肢として出力する
                         foreach ($genre_codes as $genre_code) {
-                            echo "<option value='{$vendor_code}'>{$vendor_code}</option>";
+                            echo "<option value='{$genre_code}'>{$genre_code}</option>";
                         }
                         ?>
                     </select>
