@@ -7,7 +7,7 @@ try {
     $pdo = new PDO($dsn, $user, $password);
 
     // idカラムの値をプレースホルダ（:id）に置き換えたSQL文をあらかじめ用意する
-    $sql_delete = 'DELETE FROM products WHERE id = :id';
+    $sql_delete = 'DELETE FROM books WHERE id = :id';
     $stmt_delete = $pdo->prepare($sql_delete);
 
     // bindValue()メソッドを使って実際の値をプレースホルダにバインドする（割り当てる）

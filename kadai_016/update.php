@@ -16,7 +16,7 @@ try {
         $stmt_update->bindValue(':price', $_POST['price'], PDO::PARAM_INT);
         $stmt_update->bindValue(':stock_quantity', $_POST['stock_quantity'], PDO::PARAM_INT);
         $stmt_update->bindValue(':genre_code', $_POST['genre_code'], PDO::PARAM_INT);
-        $stmt_update->bindValue(':updated_at', $_POST['updated_at'], PDO::PARAM_STR);  // ←ここ！
+        $stmt_update->bindValue(':updated_at', date('Y-m-d H:i:s'), PDO::PARAM_STR);
         $stmt_update->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
 
         $stmt_update->execute();
@@ -69,7 +69,8 @@ try {
             <div class="back">
                 <a href="read.php" class="btn">&lt; 戻る</a>
             </div>
-            <form action="edit.php?id=<?= $_GET['id'] ?>" method="post" class="registration-form">
+            <form action="php-book-app/update.php?id=<?= $_GET['id'] ?>" method="post" class="registration-form">
+
                 <div>
                     <label for="book_code">書籍コード</label>
                     <input type="number" id="book_code" name="book_code" min="0" max="100000000" required>

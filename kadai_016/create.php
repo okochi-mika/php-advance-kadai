@@ -21,7 +21,7 @@ try {
     // ジャンルコードを取得
     $sql_genres = 'SELECT genre_code FROM genres';
     $stmt_genres = $pdo->query($sql_genres);
-    $vendor_codes = $stmt_genres->fetchAll(PDO::FETCH_COLUMN);
+    $genre_codes = $stmt_genres->fetchAll(PDO::FETCH_COLUMN);
 
 } catch (PDOException $e) {
     exit($e->getMessage());

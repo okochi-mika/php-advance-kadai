@@ -70,7 +70,7 @@ $stmt_select->execute();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品一覧</title>
+    <title>書籍一覧</title>
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Google Fontsの読み込み -->
@@ -82,7 +82,7 @@ $stmt_select->execute();
 <body>
     <header>
         <nav>
-            <a href="index.php">商品管理アプリ</a>
+            <a href="index.php">書籍管理アプリ</a>
         </nav>
     </header>
     <main>
@@ -117,7 +117,7 @@ $stmt_select->execute();
     <tr>
         <th>書籍コード</th> <!-- product_code → book_code -->
         <th>書籍名</th> <!-- product_name → book_name -->
-        <th>単価</th>
+        <th>値段</th>
         <th>在庫数</th>
         <th>ジャンルコード</th> <!-- vendor_code → genre_code -->
         <th>編集</th>
